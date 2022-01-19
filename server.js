@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 // config
 const keys = require("./keys");
+const port = process.env.port || 5000;
 
 const app = express();
 
@@ -16,6 +17,6 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(() => console.log(err));
 
-const port = process.env.port || 5000;
+app.use("/api/items", require("./routes/api/item"));
 
 app.listen(port, () => console.log(`Server connected on port ${port}`));
