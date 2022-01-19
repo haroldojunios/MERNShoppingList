@@ -4,14 +4,18 @@
   "description": "Shopping list built with MERN stack",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "Haroldo Júnio",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.1",
+    "concurrently": "^7.0.0",
     "express": "^4.17.2",
     "mongoose": "^6.1.7"
   }
