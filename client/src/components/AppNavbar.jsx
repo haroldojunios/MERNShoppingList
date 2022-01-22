@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Collapse,
   Navbar,
@@ -10,38 +10,30 @@ import {
   // Container,
 } from "reactstrap";
 
-class AppNavbar extends Component {
-  state = {
-    isOpen: false,
-  };
+function AppNavbar() {
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <Navbar color="dark" dark expand="sm" className="mb-5">
-          {/* <Container> */}
-          <NavbarBrand href="/">Shopping List</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ms-auto" navbar>
-              <NavItem>
-                <NavLink href="https://github.com/haroldojunios">
-                  Github
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-          {/* </Container> */}
-        </Navbar>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Navbar color="dark" dark expand="sm" className="mb-5">
+        {/* <Container> */}
+        <NavbarBrand href="/">Shopping List</NavbarBrand>
+        <NavbarToggler
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="ms-auto" navbar>
+            <NavItem>
+              <NavLink href="https://github.com/haroldojunios">Github</NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+        {/* </Container> */}
+      </Navbar>
+    </div>
+  );
 }
 
 export default AppNavbar;
