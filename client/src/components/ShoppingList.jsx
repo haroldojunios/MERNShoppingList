@@ -3,7 +3,6 @@ import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from "prop-types";
-import { v4 as uuid } from "uuid";
 
 import { getItems, addItem, deleteItem } from "../actions/itemActions";
 
@@ -18,18 +17,6 @@ function ShoppingList(props) {
 
   return (
     <Container>
-      <Button
-        color="dark"
-        style={{ marginBottom: "2rem" }}
-        onClick={() => {
-          const name = prompt("Enter Item");
-          if (name) {
-            dispatch(addItem({ id: uuid(), name }));
-          }
-        }}>
-        Add Item
-      </Button>
-
       <ListGroup>
         <TransitionGroup className="shopping-list">
           {items.map(({ id, name }) => {
