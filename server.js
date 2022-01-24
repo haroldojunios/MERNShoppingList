@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 // config
-const keys = require("./keys");
+require("dotenv").config();
 const port = process.env.port || 5000;
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 // Connect to mongo
 mongoose
-  .connect(keys.mongoURI)
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
