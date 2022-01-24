@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 mongoose
   .connect(keys.mongoURI)
   .then(() => console.log("MongoDB connected"))
-  .catch(() => console.log(err));
+  .catch(err => console.log(err));
 
 app.use("/api/items", require("./routes/api/item"));
 

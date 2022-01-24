@@ -10,7 +10,6 @@ import {
   Input,
 } from "reactstrap";
 import { connect, useDispatch } from "react-redux";
-import { v4 as uuid } from "uuid";
 
 import { addItem } from "../actions/itemActions";
 
@@ -33,7 +32,7 @@ function ItemModal() {
             onSubmit={e => {
               e.preventDefault();
 
-              const newItem = { id: uuid(), name: state.name };
+              const newItem = { name: state.name };
               dispatch(addItem(newItem));
 
               toggle();
