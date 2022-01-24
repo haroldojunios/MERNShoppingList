@@ -3,8 +3,9 @@ import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useDispatch, connect } from "react-redux";
 import PropTypes from "prop-types";
+import { v4 as uuid } from "uuid";
 
-import { getItems } from "../actions/itemActions";
+import { getItems, addItem, deleteItem } from "../actions/itemActions";
 
 function ShoppingList(props) {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function ShoppingList(props) {
         onClick={() => {
           const name = prompt("Enter Item");
           if (name) {
-            // setItems([...items, { id: uuid(), name }]);
+            dispatch(addItem({ id: uuid(), name }));
           }
         }}>
         Add Item
@@ -40,7 +41,7 @@ function ShoppingList(props) {
                     color="danger"
                     size="sm"
                     onClick={() => {
-                      // setItems(items.filter(item => item.id !== id));
+                      dispatch(deleteItem(id));
                     }}>
                     &times;
                   </Button>
@@ -57,9 +58,13 @@ function ShoppingList(props) {
 
 ShoppingList.propTypes = {
   getItems: PropTypes.func.isRequired,
+  addItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({ item: state.item });
 
-export default connect(mapStateToProps, { getItems })(ShoppingList);
+export default connect(mapStateToProps, { getItems, addItem, deleteItem })(
+  ShoppingList
+);
