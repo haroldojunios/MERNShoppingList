@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
@@ -28,13 +29,20 @@ router
       bcrypt.hash(newUser.password, salt, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
-        newUser
-          .save()
-          .then(user =>
-            res.json({
-              user: { id: user.id, name: user.name, email: user.email },
-            })
+        newUser.save().then(user => {
+          jwt.sign(
+            { id: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                user: { id: user.id, name: user.name, email: user.email },
+              });
+            }
           );
+        });
       });
     });
   });
