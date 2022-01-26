@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const User = require("../../models/User");
+const auth = require("../../middleware/auth");
 
 router
   .route("/")
@@ -40,6 +41,17 @@ router
         );
       });
     });
+  });
+
+router
+  .route("/user")
+  // @route   GET api/auth/user
+  // @desc    Get user data
+  // @access  Private
+  .get(auth, (req, res) => {
+    User.findById(req.user.id)
+      .select("-password")
+      .then(user => res.json(user));
   });
 
 module.exports = router;
