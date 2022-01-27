@@ -9,8 +9,8 @@ import {
   // LOGIN_SUCCESS,
   // LOGIN_FAIL,
   // LOGOUT_SUCCESS,
-  // REGISTER_SUCCESS,
-  // REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
 } from "./types";
 
 export const loadUser = () => (dispatch, getState) => {
@@ -26,6 +26,22 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
+// Register user
+export const registerUser =
+  ({ name, email, password }) =>
+  dispatch => {
+    axios
+      .post("api/users", { name, email, password })
+      .then(res => dispatch({ type: REGISTER_SUCCESS, payload: res.data }))
+      .catch(err => {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+        );
+        dispatch({ type: REGISTER_FAIL });
+      });
+  };
+
+// Setup config/headers and token
 export const tokenConfig = getState => {
   // Get token from local storage
   const token = getState().auth.token;

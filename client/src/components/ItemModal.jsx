@@ -35,6 +35,7 @@ function ItemModal() {
               const newItem = { name: state.name };
               dispatch(addItem(newItem));
 
+              // Close modal
               toggle();
             }}>
             <FormGroup>
