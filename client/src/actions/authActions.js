@@ -8,7 +8,7 @@ import {
   AUTH_ERROR,
   // LOGIN_SUCCESS,
   // LOGIN_FAIL,
-  // LOGOUT_SUCCESS,
+  LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
 } from "./types";
@@ -39,7 +39,10 @@ export const registerUser =
         );
         dispatch({ type: REGISTER_FAIL });
       });
-  };
+    };
+
+// Register user
+export const logoutUser = () => {return {type:LOGOUT_SUCCESS}};
 
 // Setup config/headers and token
 export const tokenConfig = getState => {

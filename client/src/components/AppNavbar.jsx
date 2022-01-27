@@ -8,11 +8,15 @@ import {
   NavItem,
   // NavLink,
 } from "reactstrap";
+import { useSelector } from "react-redux";
 
+import Logout from "./auth/Logout";
 import RegisterModal from "./auth/RegisterModal";
 
 function AppNavbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
     <div>
@@ -25,9 +29,15 @@ function AppNavbar() {
         />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ms-auto" navbar>
-            <NavItem>
-              <RegisterModal />
-            </NavItem>
+            {isAuthenticated ? (
+              <NavItem>
+                <Logout />
+              </NavItem>
+            ) : (
+              <NavItem>
+                <RegisterModal />
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
