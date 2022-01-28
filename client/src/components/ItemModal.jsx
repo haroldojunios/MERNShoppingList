@@ -9,7 +9,7 @@ import {
   Label,
   Input,
 } from "reactstrap";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
 import { addItem } from "../actions/itemActions";
 
@@ -19,11 +19,17 @@ function ItemModal() {
   const [state, setState] = useState({ modal: false, name: "" });
   const toggle = () => setState({ ...state, modal: !state.modal });
 
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
   return (
     <div>
-      <Button color="dark" style={{ marginBottom: "2rem" }} onClick={toggle}>
-        Add Item
-      </Button>
+      {isAuthenticated ? (
+        <Button color="dark" style={{ marginBottom: "2rem" }} onClick={toggle}>
+          Add Item
+        </Button>
+      ) : (
+        <h4 className="mb-3 ms-4">Please login to manage items</h4>
+      )}
 
       <Modal isOpen={state.modal} toggle={toggle} autoFocus={false}>
         <ModalHeader toggle={toggle}>Add to Shopping List</ModalHeader>

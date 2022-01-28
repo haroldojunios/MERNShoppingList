@@ -23,15 +23,17 @@ function ShoppingList(props) {
             return (
               <CSSTransition key={_id} timeout={500} classNames="fade">
                 <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => {
-                      dispatch(deleteItem(_id));
-                    }}>
-                    &times;
-                  </Button>
+                  {props.isAuthenticated && (
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      onClick={() => {
+                        dispatch(deleteItem(_id));
+                      }}>
+                      &times;
+                    </Button>
+                  )}
                   {name}
                 </ListGroupItem>
               </CSSTransition>
@@ -48,9 +50,13 @@ ShoppingList.propTypes = {
   addItem: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({ item: state.item });
+const mapStateToProps = state => ({
+  item: state.item,
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 export default connect(mapStateToProps, { getItems, addItem, deleteItem })(
   ShoppingList
