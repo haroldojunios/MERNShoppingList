@@ -6,8 +6,8 @@ import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
-  // LOGIN_SUCCESS,
-  // LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -39,10 +39,27 @@ export const registerUser =
         );
         dispatch({ type: REGISTER_FAIL });
       });
-    };
+  };
 
-// Register user
-export const logoutUser = () => {return {type:LOGOUT_SUCCESS}};
+// Login user
+export const loginUser =
+  ({ email, password }) =>
+  dispatch => {
+    axios
+      .post("api/auth", { email, password })
+      .then(res => dispatch({ type: LOGIN_SUCCESS, payload: res.data }))
+      .catch(err => {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+        );
+        dispatch({ type: LOGIN_FAIL });
+      });
+  };
+
+// Logout user
+export const logoutUser = () => {
+  return { type: LOGOUT_SUCCESS };
+};
 
 // Setup config/headers and token
 export const tokenConfig = getState => {

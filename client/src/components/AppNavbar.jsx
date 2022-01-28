@@ -6,17 +6,19 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
+  NavbarText,
   // NavLink,
 } from "reactstrap";
 import { useSelector } from "react-redux";
 
 import Logout from "./auth/Logout";
+import LoginModal from "./auth/LoginModal";
 import RegisterModal from "./auth/RegisterModal";
 
 function AppNavbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const { isAuthenticated, user } = useSelector(state => state.auth);
 
   return (
     <div>
@@ -30,13 +32,23 @@ function AppNavbar() {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ms-auto" navbar>
             {isAuthenticated ? (
-              <NavItem>
-                <Logout />
-              </NavItem>
+              <>
+                <NavbarText className="me-3">
+                  <strong>{user ? `Welcome ${user.name}` : ""}</strong>
+                </NavbarText>
+                <NavItem>
+                  <Logout />
+                </NavItem>
+              </>
             ) : (
-              <NavItem>
-                <RegisterModal />
-              </NavItem>
+              <>
+                <NavItem>
+                  <RegisterModal />
+                </NavItem>
+                <NavItem>
+                  <LoginModal />
+                </NavItem>
+              </>
             )}
           </Nav>
         </Collapse>

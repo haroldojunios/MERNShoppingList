@@ -13,20 +13,19 @@ import {
 } from "reactstrap";
 import { connect, useDispatch, useSelector } from "react-redux";
 
-import { registerUser } from "../../actions/authActions";
+import { loginUser } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 
-function RegisterModal() {
+function LoginModal() {
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
     modal: false,
-    name: "",
     email: "",
     password: "",
     msg: null,
   });
-  
+
   const toggle = () => {
     // Clear errors
     dispatch(clearErrors());
@@ -37,7 +36,7 @@ function RegisterModal() {
 
   const error = useSelector(state => state.error);
   React.useEffect(() => {
-    if (error.id === "REGISTER_FAIL") {
+    if (error.id === "LOGIN_FAIL") {
       setState(state => ({ ...state, msg: error.msg.msg }));
     } else {
       setState(state => ({ ...state, msg: null }));
@@ -54,11 +53,11 @@ function RegisterModal() {
   return (
     <div>
       <NavLink onClick={toggle} href="#">
-        Register
+        Login
       </NavLink>
 
       <Modal isOpen={state.modal} toggle={toggle} autoFocus={false}>
-        <ModalHeader toggle={toggle}>Register</ModalHeader>
+        <ModalHeader toggle={toggle}>Login</ModalHeader>
         <ModalBody>
           {state.msg && <Alert color="danger">{state.msg}</Alert>}
           <Form
@@ -66,30 +65,20 @@ function RegisterModal() {
               e.preventDefault();
 
               // Create user object
-              const { name, email, password } = state;
-              const newUser = { name, email, password };
+              const { email, password } = state;
+              const user = { email, password };
 
-              // Attempt to register
-              dispatch(registerUser(newUser));
+              // Attempt to login
+              dispatch(loginUser(user));
             }}>
             <FormGroup>
-              <Label for="name">Name</Label>
-              <Input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Name"
-                autoFocus={true}
-                className="mb-3"
-                onChange={onChange}
-              />
-
               <Label for="email">Email</Label>
               <Input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Email"
+                autoFocus={true}
                 className="mb-3"
                 onChange={onChange}
               />
@@ -105,7 +94,7 @@ function RegisterModal() {
               />
 
               <Button color="dark" style={{ marginTop: "2rem" }} block>
-                Register
+                Login
               </Button>
             </FormGroup>
           </Form>
@@ -115,4 +104,4 @@ function RegisterModal() {
   );
 }
 
-export default connect()(RegisterModal);
+export default connect()(LoginModal);
